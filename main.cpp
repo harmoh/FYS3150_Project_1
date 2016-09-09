@@ -21,7 +21,7 @@ double solution(double x) // Solution u(x)
 
 int main(int argc, char *argv[])
 {
-    // Declear initial variables
+    // Declare initial variables
     char *outfilename;
     int n;
 
@@ -39,22 +39,48 @@ int main(int argc, char *argv[])
     }
 
     // Initial constants
-    double h = 1/(n + 1);
+    double h = 1.0/(n + 1.0);
     double *x = new double[n+2];
-    double *b_t = new double[n+1];
+    double *b_tilde = new double[n+1];
 
-    // Declear variables of matrix A
+    // Declare variables of matrix A
     int *a = new int[n+1];
     int *b = new int[n+1];
     int *c = new int[n+1];
 
-    cout << "n = " << n << endl;
-    cout << "a[1] = " << a[1] << endl;
+    // Declare temporary variabel for Gaussian elimination
+    double *gaussTemp = new double[n+1];
 
-    // Print functions
-//    double x = 10;
-//    cout << "f(" << x << ") = " << f(x) << endl;
-//    cout << "solution(" << x << ") = " << solution(x) << endl;
+    // Real and approximated solution
+    double *u = new double[n+2]; // Analytical
+    double *v = new double[n+2]; // Numerical
+
+    // Initializing first points (they are not indexed later)
+    u[0] = 0;
+    v[0] = 0;
+
+    // Initializing x
+    for(int i = 0; i < n + 2; i++)
+    {
+        x[i] = i * h;
+        // cout << "x = " << x[i] << " and b~ = h^2f(x) = " << h * h * f(x[i]) << endl;
+    }
+
+    // Initializing b_tilde, a, b and c
+    for(int i = 1; i < n + 1; i++)
+    {
+        b_tilde[i] = h * h * f(x[i]);
+        // cout << "b_tilde = " << b_tilde[i] << "\tfor x = " << x[i] << endl;
+
+        u[i] = solution(x[i]);
+        // cout << "u = " << u[i] << "\tfor x = " << x[i] << endl;
+
+        a[i] = -1;
+        b[i] = 2;
+        c[i] = -1;
+    }
+    a[1] = 0;
+    c[n] = 0;
 
     return 0;
 }
