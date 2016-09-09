@@ -49,11 +49,11 @@ int main(int argc, char *argv[])
     int *c = new int[n+1];
 
     // Declare temporary variabel for Gaussian elimination
-    double *gaussTemp = new double[n+1];
+    double *diagonal_temp = new double[n+1];
 
     // Real and approximated solution
-    double *u = new double[n+2]; // Analytical
-    double *v = new double[n+2]; // Numerical
+    double *u = new double[n+2]; // Analytical solution
+    double *v = new double[n+2]; // Numerical solution
 
     // Initializing first points (they are not indexed later)
     u[0] = 0;
@@ -67,13 +67,14 @@ int main(int argc, char *argv[])
     }
 
     // Initializing b_tilde, a, b and c
-    for(int i = 1; i < n + 1; i++)
+    for(int i = 1; i < n + 2; i++)
     {
+        // b_tilde = h^2 * f_i
         b_tilde[i] = h * h * f(x[i]);
         // cout << "b_tilde = " << b_tilde[i] << "\tfor x = " << x[i] << endl;
 
         u[i] = solution(x[i]);
-        // cout << "u = " << u[i] << "\tfor x = " << x[i] << endl;
+        //cout << "u = " << u[i] << "\tfor x = " << x[i] << endl;
 
         a[i] = -1;
         b[i] = 2;
@@ -81,6 +82,45 @@ int main(int argc, char *argv[])
     }
     a[1] = 0;
     c[n] = 0;
+
+    // Algorithm for finding v:
+    // a(i) * v(i-1) + b(i) * v(i) + c(i) * v(i+1) = b_tilde(i)
+    // Row reduction, forward substitution:
+    double b_temp = b[1];
+    v[1] = b_tilde[1] / b_temp;
+
+    for(int i = 2; i < n + 1; i++)
+    {
+        // Temporary value needed in next loop
+        diagonal_temp[i] = c[i-1] / b_temp;
+
+        // Temporary diagonal element
+        b_temp = b[i] - a[i] * diagonal_temp[i];
+
+        // Updating right hand side of matrix equation
+        v[i] = (b_tilde[i] - v[i-1] * a[i]) / b_temp;
+        // cout << "v = " << v[i] << "\tfor x = " << x[i] << endl;
+
+    }
+
+    // Row reduction, backward substitution
+    for(int i = n - 1; i > 0; i--)
+    {
+        v[i] -= diagonal_temp[i+1] * v[i+1];
+        // cout << "v = " << v[i] << "\tfor x = " << x[i] << endl;
+    }
+
+    // Open file and write to file
+    ofile.open(outfilename);
+    ofile << setiosflags(ios::showpoint | ios::uppercase);
+    ofile << "      x:          u(x):           v(x):   " << endl;
+    for(int i = 1; i < n + 1; i++)
+    {
+        ofile << setw(15) << setprecision(8) << x[i];
+        ofile << setw(15) << setprecision(8) << u[i];
+        ofile << setw(15) << setprecision(8) << v[i] << endl;
+    }
+    ofile.close();
 
     return 0;
 }
