@@ -122,5 +122,13 @@ int main(int argc, char *argv[])
     }
     ofile.close();
 
+    delete [] x;
+    delete [] b_tilde;
+    delete [] a;
+    delete [] b;
+    delete [] c;
+    delete [] u;
+    delete [] v;
+
     return 0;
 }
