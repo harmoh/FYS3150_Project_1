@@ -19,6 +19,7 @@ double solution(double x) // Solution u(x)
     return 1 - (1 - exp(-10)) * x - exp(-10 * x);
 }
 
+// Finds the minimal value in an array x with the length n
 double min(double x[], int n)
 {
     double min_value = 1;
@@ -30,6 +31,20 @@ double min(double x[], int n)
         }
     }
     return min_value;
+}
+
+// Finds the maximum value in an array x with the length n
+double max(double x[], int n)
+{
+    double max_value = 0;
+    for(int i = 1; i < n + 1; i++)
+    {
+        if(x[i] > max_value)
+        {
+            max_value = x[i];
+        }
+    }
+    return max_value;
 }
 
 int main(int argc, char *argv[])
@@ -135,17 +150,17 @@ int main(int argc, char *argv[])
     }
     ofile.close();
 
-    double *difference = new double[n+2];
+    double *relative_error = new double[n+2];
 
     for(int i = 1; i < n + 1; i++)
     {
-        difference[i] = u[i] - v[i];
-        // cout << "Difference for " << i << " = " << difference[i] << endl;
+        relative_error[i] = log10(abs((v[i] - u[i])/u[i]));
+        //cout << "Relative error for " << i << " = " << setprecision(16) << relative_error[i] << endl;
     }
 
-    double min_difference = min(difference, n);
+    double max_error = min(relative_error, n);
 
-    cout << "Min difference: " << setprecision(8) << min_difference << endl;
+    cout << "Max error: " << setprecision(8) << max_error << endl;
 
     delete [] x;
     delete [] b_tilde;
