@@ -19,6 +19,19 @@ double solution(double x) // Solution u(x)
     return 1 - (1 - exp(-10)) * x - exp(-10 * x);
 }
 
+double min(double x[], int n)
+{
+    double min_value = 1;
+    for(int i = 1; i < n + 1; i++)
+    {
+        if(x[i] < min_value)
+        {
+            min_value = x[i];
+        }
+    }
+    return min_value;
+}
+
 int main(int argc, char *argv[])
 {
     // Declare initial variables
@@ -113,14 +126,26 @@ int main(int argc, char *argv[])
     // Open file and write to file
     ofile.open(outfilename);
     ofile << setiosflags(ios::showpoint | ios::uppercase);
-    ofile << "      x:          u(x):           v(x):   " << endl;
+    ofile << "# x:" << setw(15) <<  "u(x):" << setw(15) << "v(x):" << endl;
     for(int i = 1; i < n + 1; i++)
     {
-        ofile << setw(15) << setprecision(8) << x[i];
+        ofile << setw(0) << setprecision(8) << x[i];
         ofile << setw(15) << setprecision(8) << u[i];
         ofile << setw(15) << setprecision(8) << v[i] << endl;
     }
     ofile.close();
+
+    double *difference = new double[n+2];
+
+    for(int i = 1; i < n + 1; i++)
+    {
+        difference[i] = u[i] - v[i];
+        // cout << "Difference for " << i << " = " << difference[i] << endl;
+    }
+
+    double min_difference = min(difference, n);
+
+    cout << "Min difference: " << setprecision(8) << min_difference << endl;
 
     delete [] x;
     delete [] b_tilde;
