@@ -36,7 +36,7 @@ double min(double x[], int n)
 // Finds the maximum value in an array x with the length n
 double max(double x[], int n)
 {
-    double max_value = 0;
+    double max_value = -10e10;
     for(int i = 1; i < n + 1; i++)
     {
         if(x[i] > max_value)
@@ -45,6 +45,20 @@ double max(double x[], int n)
         }
     }
     return max_value;
+}
+
+// Calculates maximum error using u(x) and v(x) with length n
+double max_relative_error(double u[], double v[], int n)
+{
+    double *relative_error = new double[n+2];
+
+    for(int i = 1; i < n + 1; i++)
+    {
+        relative_error[i] = log10(abs((v[i] - u[i])/u[i]));
+        //cout << "Relative error for " << i << " = " << setprecision(16) << relative_error[i] << endl;
+    }
+
+    return max(relative_error, n);
 }
 
 int main(int argc, char *argv[])
@@ -150,17 +164,23 @@ int main(int argc, char *argv[])
     }
     ofile.close();
 
-    double *relative_error = new double[n+2];
+//    double *relative_error = new double[n+2];
 
-    for(int i = 1; i < n + 1; i++)
+//    for(int i = 1; i < n + 1; i++)
+//    {
+//        relative_error[i] = log10(abs((v[i] - u[i])/u[i]));
+//        //cout << "Relative error for " << i << " = " << setprecision(16) << relative_error[i] << endl;
+//    }
+
+    //double max_error = max_relative_error(u, v, n);
+    //cout << "Max error: " << setprecision(8) << max_error << endl;
+
+    for(int i = 1; i < 4; i++)
     {
-        relative_error[i] = log10(abs((v[i] - u[i])/u[i]));
-        //cout << "Relative error for " << i << " = " << setprecision(16) << relative_error[i] << endl;
+        int N = pow(10,i);
+        double max_error = max_relative_error(u, v, N);
+        cout << "Max error for N = " << N << ": " << max_error << endl;
     }
-
-    double max_error = min(relative_error, n);
-
-    cout << "Max error: " << setprecision(8) << max_error << endl;
 
     delete [] x;
     delete [] b_tilde;
