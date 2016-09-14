@@ -1,0 +1,4 @@
+#ifndef RELATIVE_ERROR_H
+#define RELATIVE_ERROR_H
+
+#endif // RELATIVE_ERROR_H
