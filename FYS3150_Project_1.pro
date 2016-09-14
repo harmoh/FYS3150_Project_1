@@ -6,5 +6,11 @@ CONFIG -= qt
 INCLUDEPATH += /usr/local/include
 LIBS += -L/usr/local/lib
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    row_reduction.cpp \
+    relative_error.cpp
 LIBS += -larmadillo -llapack -lblas
+
+HEADERS += \
+    row_reduction.h \
+    relative_error.h
