@@ -3,10 +3,13 @@
 #include <cmath>
 #include <iomanip>
 #include <armadillo>
+#include <string>
 #include "row_reduction.h"
 
 using namespace arma;
 using namespace std;
+
+ofstream ofile_summary;
 
 /*
  * This is the main program for Project 1 in FYS3150.
@@ -31,12 +34,36 @@ int main(int argc, char *argv[])
         exponent = atoi(argv[2]);      // Second command line argument
     }
 
+
     // Task a) and b)
     // Performs row reduction by forward and backward substitution and prints to file
+
+    // Open file and write to file
+    string error_time = outfilename;
+    error_time.append("_error_time.txt");
+    ofile_summary.open(error_time);
+    ofile_summary << setiosflags(ios::showpoint | ios::uppercase);
+    ofile_summary << "# N:" << setw(22) <<  "Relative error:" << setw(22) << "Time elapsed [sec]:" << endl;
+
+    // Declare start and final time
+    clock_t start, finish;
     for(int i = 1; i < exponent + 1; i++)
     {
-        row_reduction(outfilename, i);
+        start = clock();
+
+        double max_error = row_reduction(outfilename, i);
+
+        finish = clock();
+        double time_temp = (double) (finish - start)/(CLOCKS_PER_SEC);
+        //cout << setiosflags(ios::showpoint | ios::uppercase);
+        cout << "Max error for N = 10e" << i << ": " << max_error << " time used: " <<
+                time_temp << " sec." << endl;// and total time: " << time_total << " sec." << endl;
+
+        ofile_summary << setw(0) << setprecision(8) << "10e" << i;
+        ofile_summary << setw(20) << setprecision(8) << max_error;
+        ofile_summary << setw(24) << setprecision(8) << time_temp << endl;
     }
+    ofile_summary.close();
 
     return 0;
 }

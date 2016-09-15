@@ -51,7 +51,7 @@ double max_relative_error(double u[], double v[], int n)
     return max(relative_error, n);
 }
 
-void row_reduction(char *outfilename, int exponent)
+double row_reduction(char *outfilename, int exponent)
 {
     // Convert to n = 10e(exponent)
     int n = pow(10,exponent);
@@ -136,20 +136,21 @@ void row_reduction(char *outfilename, int exponent)
 
     double max_error = max_relative_error(u, v, n);
 
-    // Open file and write to file
+    // Choose filename from command line argument and add exponent of N and ".txt"
     string outname = outfilename;
     string exp = to_string(exponent);
     outname.append(exp);
     outname.append(".txt");
+
+    // Open file and write to file
     ofile.open(outname);
     ofile << setiosflags(ios::showpoint | ios::uppercase);
-    ofile << "# x:" << setw(16) <<  "u(x):" << setw(16) << "v(x):" << setw(16) << "relative error:" << endl;
+    ofile << "# x:" << setw(20) <<  "u(x):" << setw(20) << "v(x):" << endl;
     for(int i = 1; i < n + 1; i++)
     {
         ofile << setw(0) << setprecision(8) << x[i];
-        ofile << setw(15) << setprecision(8) << u[i];
-        ofile << setw(15) << setprecision(8) << v[i];
-        ofile << setw(15) << setprecision(8) << max_error << endl;
+        ofile << setw(18) << setprecision(8) << u[i];
+        ofile << setw(18) << setprecision(8) << v[i] << endl;
     }
     ofile.close();
 
@@ -161,4 +162,6 @@ void row_reduction(char *outfilename, int exponent)
     delete [] c;
     delete [] u;
     delete [] v;
+
+    return max_error;
 }

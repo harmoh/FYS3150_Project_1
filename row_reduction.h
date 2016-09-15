@@ -3,6 +3,6 @@
 
 double f(double x);
 double solution(double x);
-void row_reduction(char *outfilename, int exponent);
+double row_reduction(char *outfilename, int exponent);
 
 #endif // ROW_REDUCTION_H
