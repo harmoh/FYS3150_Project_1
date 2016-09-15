@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 {
     // Declare initial variables
     char *outfilename;
-    int n;
+    int exponent;
 
     // Read from command line if there are enough arguments
     if(argc <= 2)
@@ -28,24 +28,15 @@ int main(int argc, char *argv[])
     else
     {
         outfilename = argv[1];  // First command line argument
-        n = atoi(argv[2]);      // Second command line argument
+        exponent = atoi(argv[2]);      // Second command line argument
     }
 
     // Task a) and b)
-    // Performs row reduction by forward and backward substitution, prints to file and calculates max error
-    row_reduction(outfilename, n);
-
-
-
-    /*
-     * Loop for calculating error for several matrix sizes
-    for(int i = 1; i < 4; i++)
+    // Performs row reduction by forward and backward substitution and prints to file
+    for(int i = 1; i < exponent + 1; i++)
     {
-        int N = pow(10,i);
-        double max_error = max_relative_error(u, v, N);
-        cout << "Max error for N = " << N << ": " << max_error << endl;
+        row_reduction(outfilename, i);
     }
-    */
 
     return 0;
 }

@@ -2,6 +2,7 @@
 #include <fstream>
 #include <cmath>
 #include <iomanip>
+#include <string>
 #include "row_reduction.h"
 
 using namespace std;
@@ -46,14 +47,15 @@ double max_relative_error(double u[], double v[], int n)
     for(int i = 1; i < n + 1; i++)
     {
         relative_error[i] = log10(abs((v[i] - u[i])/u[i]));
-        //cout << "Relative error for " << i << " = " << setprecision(16) << relative_error[i] << endl;
     }
-
     return max(relative_error, n);
 }
 
-void row_reduction(char *outfilename, int n)
+void row_reduction(char *outfilename, int exponent)
 {
+    // Convert to n = 10e(exponent)
+    int n = pow(10,exponent);
+
     // Initial constants
     double h = 1.0/(n + 1.0);
     double *x = new double[n+2];
@@ -87,7 +89,7 @@ void row_reduction(char *outfilename, int n)
         // cout << "b_tilde = " << b_tilde[i] << "\tfor x = " << x[i] << endl;
 
         u[i] = solution(x[i]);
-        cout << "u = " << u[i] << "\tfor x = " << x[i] << endl;
+        // cout << "u = " << u[i] << "\tfor x = " << x[i] << endl;
 
         a[i] = -1;
         b[i] = 2;
@@ -108,7 +110,7 @@ void row_reduction(char *outfilename, int n)
     double b_temp = b[1];
     v[1] = b_tilde[1] / b_temp; // v(1) = b_tilde(1) / b_temp(1)
 
-    cout << "\nForward substitution:" << endl;
+    // cout << "\nForward substitution:" << endl;
     for(int i = 2; i < n + 1; i++)
     {
         // Temporary value needed in next loop
@@ -119,33 +121,37 @@ void row_reduction(char *outfilename, int n)
 
         // Updating right hand side of matrix equation
         v[i] = (b_tilde[i] - v[i-1] * a[i]) / b_temp;
-        cout << "v = " << v[i] << "\tfor x = " << x[i] << endl;
+        // cout << "v = " << v[i] << "\tfor x = " << x[i] << endl;
 
     }
 
-    cout << "\nBackward substitution:" << endl;
+    // cout << "\nBackward substitution:" << endl;
 
     // Backward substitution, in general: v(i) = (b_tilde(i) - c(i) * v(i+1)) / b_temp(i)
     for(int i = n; i > 0; i--)
     {
         v[i] -= diagonal_temp[i+1] * v[i+1];
-        cout << "v = " << v[i] << "\tfor x = " << x[i] << endl;
+        // cout << "v = " << v[i] << "\tfor x = " << x[i] << endl;
     }
 
+    double max_error = max_relative_error(u, v, n);
+
     // Open file and write to file
-    ofile.open(outfilename);
+    string outname = outfilename;
+    string exp = to_string(exponent);
+    outname.append(exp);
+    outname.append(".txt");
+    ofile.open(outname);
     ofile << setiosflags(ios::showpoint | ios::uppercase);
-    ofile << "# x:" << setw(15) <<  "u(x):" << setw(15) << "v(x):" << endl;
+    ofile << "# x:" << setw(16) <<  "u(x):" << setw(16) << "v(x):" << setw(16) << "relative error:" << endl;
     for(int i = 1; i < n + 1; i++)
     {
         ofile << setw(0) << setprecision(8) << x[i];
         ofile << setw(15) << setprecision(8) << u[i];
-        ofile << setw(15) << setprecision(8) << v[i] << endl;
+        ofile << setw(15) << setprecision(8) << v[i];
+        ofile << setw(15) << setprecision(8) << max_error << endl;
     }
     ofile.close();
-
-    double max_error = max_relative_error(u, v, n);
-    cout << "\nMax error for N = " << n << ": " << max_error << endl;
 
     // Deletes arrays after use to free space
     delete [] x;

@@ -11,12 +11,12 @@ using namespace std;
  *
  */
 
-double f(double x) // Function f(x)
+double f_error(double x) // Function f(x)
 {
     return 100 * exp(-10 * x);
 }
 
-double solution(double x) // Solution u(x)
+double solution_error(double x) // Solution u(x)
 {
     return 1 - (1 - exp(-10)) * x - exp(-10 * x);
 }
@@ -47,7 +47,7 @@ double max_relative_error(double u[], double v[], int n)
     return max(relative_error, n);
 }
 
-void relative_error(int n)
+double relative_error(int n)
 {
     // Initial constants
     double h = 1.0/(n + 1.0);
@@ -71,19 +71,14 @@ void relative_error(int n)
     for(int i = 0; i < n + 2; i++)
     {
         x[i] = i * h;
-        // cout << "x = " << x[i] << " and b~ = h^2f(x) = " << h * h * f(x[i]) << endl;
     }
 
     // Initializing b_tilde, u, a, b and c
     for(int i = 1; i < n + 1; i++)
     {
         // b_tilde = h^2 * f_i
-        b_tilde[i] = h * h * f(x[i]);
-        // cout << "b_tilde = " << b_tilde[i] << "\tfor x = " << x[i] << endl;
-
-        u[i] = solution(x[i]);
-        cout << "u = " << u[i] << "\tfor x = " << x[i] << endl;
-
+        b_tilde[i] = h * h * f_error(x[i]);
+        u[i] = solution_error(x[i]);
         a[i] = -1;
         b[i] = 2;
         c[i] = -1;
@@ -103,7 +98,6 @@ void relative_error(int n)
     double b_temp = b[1];
     v[1] = b_tilde[1] / b_temp; // v(1) = b_tilde(1) / b_temp(1)
 
-    cout << "\nForward substitution:" << endl;
     for(int i = 2; i < n + 1; i++)
     {
         // Temporary value needed in next loop
@@ -122,9 +116,6 @@ void relative_error(int n)
         v[i] -= diagonal_temp[i+1] * v[i+1];
     }
 
-    double max_error = max_relative_error(u, v, n);
-    cout << "\nMax error for N = " << n << ": " << max_error << endl;
-
     // Deletes arrays after use to free space
     delete [] x;
     delete [] b_tilde;
@@ -133,4 +124,8 @@ void relative_error(int n)
     delete [] c;
     delete [] u;
     delete [] v;
+
+    double max_error = max_relative_error(u, v, n);
+
+    return max_error;
 }

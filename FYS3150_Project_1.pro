@@ -7,10 +7,8 @@ INCLUDEPATH += /usr/local/include
 LIBS += -L/usr/local/lib
 
 SOURCES += main.cpp \
-    row_reduction.cpp \
-    relative_error.cpp
+    row_reduction.cpp
 LIBS += -larmadillo -llapack -lblas
 
 HEADERS += \
-    row_reduction.h \
-    relative_error.h
+    row_reduction.h
