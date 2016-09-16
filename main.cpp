@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
     // Open file and write to file
     string error_time = outfilename;
     error_time.append(to_string(exponent));
-    error_time.append("_error_time_");
+    error_time.append("_error_time");
     error_time.append(".txt");
     ofile_summary.open(error_time);
     ofile_summary << setiosflags(ios::showpoint | ios::uppercase);
@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
         double time_temp_lu = (double) (finish_lu - start_lu)/(CLOCKS_PER_SEC);
         //cout << setiosflags(ios::showpoint | ios::uppercase);
         cout << "Max error for N = 10e" << i << ": " << max_error << " time used: " <<
-                time_temp << " sec." << endl;// and total time: " << time_total << " sec." << endl;
+                time_temp << " sec and " << time_temp_lu << " sec." << endl;
 
         ofile_summary << setw(0) << setprecision(8) << "10e" << i;
         ofile_summary << setw(18) << setprecision(8) << max_error;

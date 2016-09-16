@@ -94,6 +94,7 @@ double lu_decomposition(char *outfilename, int exponent)
 
     double max_error = max_relative_error_lu(u, v, n);
 
+    /*
     // Choose filename from command line argument and add exponent of N and ".txt"
     string outname = outfilename;
     string exp = to_string(exponent);
@@ -112,6 +113,7 @@ double lu_decomposition(char *outfilename, int exponent)
         ofile_lu << setw(18) << setprecision(8) << v(i) << endl;
     }
     ofile_lu.close();
+    */
 
     return max_error;
 }
