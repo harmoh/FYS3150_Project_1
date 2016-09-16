@@ -3,7 +3,7 @@
 #include <cmath>
 #include <iomanip>
 #include <string>
-#include "row_reduction.h"
+#include "tridiagonal.h"
 
 using namespace std;
 
@@ -51,7 +51,7 @@ double max_relative_error(double u[], double v[], int n)
     return max(relative_error, n);
 }
 
-double row_reduction(char *outfilename, int exponent)
+double tridiagonal(char *outfilename, int exponent)
 {
     // Convert to n = 10e(exponent)
     int n = pow(10,exponent);
@@ -138,8 +138,7 @@ double row_reduction(char *outfilename, int exponent)
 
     // Choose filename from command line argument and add exponent of N and ".txt"
     string outname = outfilename;
-    string exp = to_string(exponent);
-    outname.append(exp);
+    outname.append(to_string(exponent));
     outname.append(".txt");
 
     // Open file and write to file

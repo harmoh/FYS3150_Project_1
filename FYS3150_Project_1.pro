@@ -7,8 +7,10 @@ INCLUDEPATH += /usr/local/include
 LIBS += -L/usr/local/lib
 
 SOURCES += main.cpp \
-    row_reduction.cpp
+    lu_decomposition.cpp \
+    tridiagonal.cpp
 LIBS += -larmadillo -llapack -lblas
 
 HEADERS += \
-    row_reduction.h
+    lu_decomposition.h \
+    tridiagonal.h
