@@ -35,10 +35,6 @@ int main(int argc, char *argv[])
         exponent = atoi(argv[2]);      // Second command line argument
     }
 
-
-    // Task a) and b)
-    // Performs row reduction by forward and backward substitution and prints to file
-
     // Open file and write to file
     string error_time = outfilename;
     error_time.append(to_string(exponent));
@@ -46,20 +42,23 @@ int main(int argc, char *argv[])
     error_time.append(".txt");
     ofile_summary.open(error_time);
     ofile_summary << setiosflags(ios::showpoint | ios::uppercase);
-    ofile_summary << "# N:" << setw(18) <<  "Error:" << setw(24) <<
-                     "Error (LU Decomp.):" << setw(16) <<  "Time [sec]:" <<
+    ofile_summary << "# N:" << setw(18) <<  "h:" << setw(24) <<
+                     "Error:" << setw(16) <<  "Time [sec]:" <<
                      setw(28) << "Time (LU Decomp.) [sec]:" << endl;
 
     // Declare start and final time
     clock_t start, start_lu, finish, finish_lu;
     for(int i = 1; i < exponent + 1; i++)
     {
+        int n = pow(10, i);
+        double h = 1.0 / (n + 1.0);
+
         start = clock();
         double max_error = tridiagonal(outfilename, i);
         finish = clock();
 
         start_lu = clock();
-        double max_error_lu_decomp = lu_decomposition(outfilename, i);
+        //double max_error_lu_decomp = lu_decomposition(outfilename, i);
         finish_lu = clock();
 
         double time_temp = (double) (finish - start)/(CLOCKS_PER_SEC);
@@ -69,8 +68,8 @@ int main(int argc, char *argv[])
                 time_temp << " sec and " << time_temp_lu << " sec." << endl;
 
         ofile_summary << setw(0) << setprecision(8) << "10e" << i;
-        ofile_summary << setw(18) << setprecision(8) << max_error;
-        ofile_summary << setw(18) << setprecision(8) << max_error_lu_decomp;
+        ofile_summary << setw(18) << setprecision(8) << h;
+        ofile_summary << setw(18) << setprecision(8) << pow(10, max_error);
         ofile_summary << setw(24) << setprecision(8) << time_temp;
         ofile_summary << setw(24) << setprecision(8) << time_temp_lu << endl;
     }
