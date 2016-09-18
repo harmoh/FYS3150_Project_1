@@ -51,10 +51,10 @@ double max_relative_error(double u[], double v[], int n)
     return max(relative_error, n);
 }
 
-double tridiagonal(char *outfilename, int exponent)
+double tridiagonal(char *outfilename, int base, int exponent)
 {
     // Convert to n = 10e(exponent)
-    int n = pow(10,exponent);
+    int n = pow(base,exponent);
 
     // Initial constants
     double h = 1.0/(n + 1.0);

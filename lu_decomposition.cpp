@@ -55,10 +55,10 @@ double max_relative_error_lu(vec u, vec v, int n)
     return max_lu(relative_error, n);
 }
 
-double lu_decomposition(char *outfilename, int exponent)
+void lu_decomposition(int base, int exponent)
 {
     // Convert to n = 10e(exponent)
-    int n = pow(10,exponent);
+    int n = pow(base,exponent);
 
     // Initial constants
     double h = 1.0/(n + 1.0);
@@ -92,28 +92,5 @@ double lu_decomposition(char *outfilename, int exponent)
 
     v = solve(A, b_tilde);
 
-    double max_error = max_relative_error_lu(u, v, n);
-
-    /*
-    // Choose filename from command line argument and add exponent of N and ".txt"
-    string outname = outfilename;
-    string exp = to_string(exponent);
-    outname.append(exp);
-    outname.append("_lu_decomposition");
-    outname.append(".txt");
-
-    // Open file and write to file
-    ofile_lu.open(outname);
-    ofile_lu << setiosflags(ios::showpoint | ios::uppercase);
-    ofile_lu << "# x:" << setw(20) <<  "u(x):" << setw(20) << "v(x):" << endl;
-    for(int i = 0; i < n; i++)
-    {
-        ofile_lu << setw(0) << setprecision(8) << x(i);
-        ofile_lu << setw(18) << setprecision(8) << u(i);
-        ofile_lu << setw(18) << setprecision(8) << v(i) << endl;
-    }
-    ofile_lu.close();
-    */
-
-    return max_error;
+    // double max_error = max_relative_error_lu(u, v, n);
 }

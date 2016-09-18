@@ -20,6 +20,7 @@ int main(int argc, char *argv[])
 {
     // Declare initial variables
     char *outfilename;
+    int base;
     int exponent;
 
     // Read from command line if there are enough arguments
@@ -31,8 +32,9 @@ int main(int argc, char *argv[])
     }
     else
     {
-        outfilename = argv[1];  // First command line argument
-        exponent = atoi(argv[2]);      // Second command line argument
+        outfilename = argv[1];      // First command line argument
+        base = atoi(argv[2]);       // Second command line argument
+        exponent = atoi(argv[3]);   // Third command line argument
     }
 
     // Open file and write to file
@@ -50,24 +52,24 @@ int main(int argc, char *argv[])
     clock_t start, start_lu, finish, finish_lu;
     for(int i = 1; i < exponent + 1; i++)
     {
-        int n = pow(10, i);
+        int n = pow(base, i);
         double h = 1.0 / (n + 1.0);
 
         start = clock();
-        double max_error = tridiagonal(outfilename, i);
+        double max_error = tridiagonal(outfilename, base, i);
         finish = clock();
 
         start_lu = clock();
-        //double max_error_lu_decomp = lu_decomposition(outfilename, i);
+        lu_decomposition(base, i);
         finish_lu = clock();
 
         double time_temp = (double) (finish - start)/(CLOCKS_PER_SEC);
         double time_temp_lu = (double) (finish_lu - start_lu)/(CLOCKS_PER_SEC);
         //cout << setiosflags(ios::showpoint | ios::uppercase);
-        cout << "Max error for N = 10e" << i << ": " << max_error << " time used: " <<
+        cout << "Max error for N = " << base << "e" << i << ": " << max_error << " time used: " <<
                 time_temp << " sec and " << time_temp_lu << " sec." << endl;
 
-        ofile_summary << setw(0) << setprecision(8) << "10e" << i;
+        ofile_summary << setw(0) << setprecision(8) << base << "e" << i;
         ofile_summary << setw(18) << setprecision(8) << h;
         ofile_summary << setw(18) << setprecision(8) << pow(10, max_error);
         ofile_summary << setw(24) << setprecision(8) << time_temp;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.1.0, 2016-09-16T15:56:27. -->
+<!-- Written by QtCreator 4.1.0, 2016-09-18T21:40:04. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -308,7 +308,7 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/Users/harald/Documents/GitHub/QtProjects/FYS3150_Project_1/FYS3150_Project_1.pro</value>
     <value type="bool" key="QmakeProjectManager.QmakeRunConfiguration.UseLibrarySearchPath">true</value>
-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments">out 7</value>
+    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments">out 10 3</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">FYS3150_Project_1.pro</value>
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseTerminal">false</value>

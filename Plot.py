@@ -12,11 +12,14 @@ for i in range(1, exponent+1):
     figfile = fout + ".pdf"
     data = np.loadtxt(fout)
     x = data[:,0]
-    solution = data[:,1]
-    exact = data[:,2]
-    plt.axis([0, 1, 0, 1])
-    numericalplot = plt.plot(x, solution, 'r:.', linewidth = 1.0, label = 'Numerical')
-    exactplot = plt.plot(x, exact, 'm:v', linewidth = 1.0, label = 'Exact')
+    exact = data[:,1]
+    numerical = data[:,2]
+    plt.axis([0, 1, 0, 0.7])
+    #numericalplot = plt.plot(x, solution, 'r:.', linewidth = 1.0, label = 'Numerical')
+    #exactplot = plt.plot(x, exact, 'm:v', linewidth = 1.0, label = 'Exact')
+    exactplot = plt.plot(x, exact, label = 'Exact, $u(x)$')
+    numericalplot = plt.plot(x, numerical, label = 'Numerical, $v(x)$')
+    plt.legend(loc='lower center', fancybox='True')
     plt.grid(True)
     plt.xlabel(r'$x$')
     plt.ylabel(r'Solutions')
@@ -25,14 +28,14 @@ for i in range(1, exponent+1):
     plt.clf()
 
 # Plot relative error
-fout = "out7_error_time.txt"
+fout = "out24_error_time.txt"
 figfile = fout + ".pdf"
 data = np.loadtxt(fout)
 x = data[:,1]
 solution = data[:,2]
 plt.yscale('log', nonposy='clip')
 plt.xscale('log', nonposy='clip')
-plt.axis([0.00000001, 1, 0.000000001, 0.1])
+plt.axis([0.00000001, 1, 0.000000001, 1])
 plt.grid(True)
 numericalplot = plt.plot(x, solution, 'r:.', linewidth = 2.0, label = 'Numerical')
 plt.xlabel(r'$h$')
