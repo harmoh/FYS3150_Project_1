@@ -31,7 +31,7 @@ double solution_lu(double x) // Solution u(x)
 // Finds the maximum value in an array x with the length n
 double max_lu(vec x, int n)
 {
-    double max_value = -10e10;
+    double max_value = -10e10; // Setting a very low initial value
     for(int i = 0; i < n; i++)
     {
         if(x(i) > max_value)

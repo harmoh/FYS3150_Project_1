@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
         finish = clock();
 
         start_lu = clock();
-        lu_decomposition(base, i);
+        //lu_decomposition(base, i);
         finish_lu = clock();
 
         double time_temp = (double) (finish - start)/(CLOCKS_PER_SEC);

@@ -95,7 +95,7 @@ double tridiagonal(char *outfilename, int base, int exponent)
         b[i] = 2;
         c[i] = -1;
     }
-    a[1] = 0;
+    a[n] = 0;
     c[n] = 0;
 
     /* Algorithm for finding v:
@@ -106,31 +106,24 @@ double tridiagonal(char *outfilename, int base, int exponent)
      */
 
     // Declare temporary variabel for Gaussian elimination
-    double *diagonal_temp = new double[n+1];
-    double b_temp = b[1];
-    v[1] = b_tilde[1] / b_temp; // v(1) = b_tilde(1) / b_temp(1)
+    double *b_temp = new double[n+1];
+    b_temp[1] = b[1];
+    v[1] = b_tilde[1] / b_temp[1];
 
-    // cout << "\nForward substitution:" << endl;
     for(int i = 2; i < n + 1; i++)
     {
-        // Temporary value needed in next loop
-        diagonal_temp[i] = c[i-1] / b_temp;
-
         // Temporary diagonal element
-        b_temp = b[i] - a[i] * diagonal_temp[i];
+        b_temp[i] = b[i] - a[i-1] * c[i-1] / b_temp[i-1];
 
         // Updating right hand side of matrix equation
-        v[i] = (b_tilde[i] - v[i-1] * a[i]) / b_temp;
+        v[i] = (b_tilde[i] - v[i-1] * a[i-1]) / b_temp[i];
         // cout << "v = " << v[i] << "\tfor x = " << x[i] << endl;
-
     }
 
-    // cout << "\nBackward substitution:" << endl;
-
-    // Backward substitution, in general: v(i) = (b_tilde(i) - c(i) * v(i+1)) / b_temp(i)
+    // Backward substitution, in general: v(i) = (v(i) - c(i) * v(i+1)) / b_temp(i)
     for(int i = n; i > 0; i--)
     {
-        v[i] -= diagonal_temp[i+1] * v[i+1];
+        v[i] -= c[i] * v[i+1] / b_temp[i];
         // cout << "v = " << v[i] << "\tfor x = " << x[i] << endl;
     }
 
