@@ -106,24 +106,24 @@ double tridiagonal(char *outfilename, int base, int exponent)
      */
 
     // Declare temporary variabel for Gaussian elimination
-    double *b_temp = new double[n+1];
-    b_temp[1] = b[1];
-    v[1] = b_tilde[1] / b_temp[1];
+    double *d_tilde = new double[n+1];
+    d_tilde[1] = b[1];
+    v[1] = b_tilde[1] / d_tilde[1];
 
     for(int i = 2; i < n + 1; i++)
     {
         // Temporary diagonal element
-        b_temp[i] = b[i] - a[i-1] * c[i-1] / b_temp[i-1];
+        d_tilde[i] = b[i] - a[i-1] * c[i-1] / d_tilde[i-1];
 
         // Updating right hand side of matrix equation
-        v[i] = (b_tilde[i] - v[i-1] * a[i-1]) / b_temp[i];
+        v[i] = (b_tilde[i] - v[i-1] * a[i-1]) / d_tilde[i];
         // cout << "v = " << v[i] << "\tfor x = " << x[i] << endl;
     }
 
     // Backward substitution, in general: v(i) = (v(i) - c(i) * v(i+1)) / b_temp(i)
-    for(int i = n; i > 0; i--)
+    for(int i = n - 1; i > 0; i--)
     {
-        v[i] -= c[i] * v[i+1] / b_temp[i];
+        v[i] -= c[i] * v[i+1] / d_tilde[i];
         // cout << "v = " << v[i] << "\tfor x = " << x[i] << endl;
     }
 
