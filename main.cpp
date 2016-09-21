@@ -60,14 +60,14 @@ int main(int argc, char *argv[])
         finish = clock();
 
         start_lu = clock();
-        //lu_decomposition(base, i);
+        lu_decomposition(base, i);
         finish_lu = clock();
 
         double time_temp = (double) (finish - start)/(CLOCKS_PER_SEC);
         double time_temp_lu = (double) (finish_lu - start_lu)/(CLOCKS_PER_SEC);
-        //cout << setiosflags(ios::showpoint | ios::uppercase);
-        cout << "Max error for N = " << base << "e" << i << ": " << max_error << " time used: " <<
-                time_temp << " sec and " << time_temp_lu << " sec." << endl;
+        cout << "Max error for N = " << base << "e" << i << ": " << max_error <<
+                " time used: " << time_temp << " sec and " << time_temp_lu <<
+                " sec." << endl;
 
         ofile_summary << setw(0) << setprecision(8) << base << "e" << i;
         ofile_summary << setw(18) << setprecision(8) << h;
