@@ -40,8 +40,7 @@ int main(int argc, char *argv[])
     // Open file and write to file
     string error_time = outfilename;
     error_time.append(to_string(exponent));
-    error_time.append("_error_time");
-    error_time.append(".txt");
+    error_time.append("_error_time.txt");
     ofile_summary.open(error_time);
     ofile_summary << setiosflags(ios::showpoint | ios::uppercase);
     ofile_summary << "# N:" << setw(18) <<  "h:" << setw(24) <<
