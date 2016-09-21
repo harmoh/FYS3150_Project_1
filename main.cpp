@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
 
         ofile_summary << setw(0) << setprecision(8) << base << "e" << i;
         ofile_summary << setw(18) << setprecision(8) << h;
-        ofile_summary << setw(18) << setprecision(8) << pow(10, max_error);
+        ofile_summary << setw(18) << setprecision(8) << pow(base, max_error);
         ofile_summary << setw(24) << setprecision(8) << time_temp;
         ofile_summary << setw(24) << setprecision(8) << time_temp_lu << endl;
     }

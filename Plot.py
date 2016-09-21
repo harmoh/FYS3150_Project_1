@@ -28,7 +28,7 @@ for i in range(1, exponent+1):
     plt.clf()
 
 # Plot relative error
-fout = "out24_error_time.txt"
+fout = filename + str(exponent) + "_error_time.txt"
 figfile = fout + ".pdf"
 data = np.loadtxt(fout)
 x = data[:,1]
@@ -37,7 +37,7 @@ plt.yscale('log', nonposy='clip')
 plt.xscale('log', nonposy='clip')
 plt.axis([0.00000001, 1, 0.000000001, 1])
 plt.grid(True)
-numericalplot = plt.plot(x, solution, 'r:.', linewidth = 2.0, label = 'Numerical')
+numericalplot = plt.plot(x, solution, label = 'Numerical')
 plt.xlabel(r'$h$')
 plt.ylabel(r'$\epsilon_i = |\frac{v_i - u_i}{u_i}|$')
 plt.savefig(figfile)
